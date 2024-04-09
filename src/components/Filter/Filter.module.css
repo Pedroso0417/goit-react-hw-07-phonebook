@@ -1,0 +1,22 @@
+/* Filter.module.css */
+
+.filterContainer {
+  margin-bottom: 20px;
+}
+
+.filterLabel {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.inputText {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.inputText:focus {
+  outline: none;
+  border-color: #007bff;
+}
