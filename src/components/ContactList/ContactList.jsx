@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styles from './ContactList.module.css'; // Import CSS styles
 
-export const ContactList = () => {
+const ContactList = () => {
   // Select the contacts from the Redux store
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector();
 
   return (
     <div className={styles.contactListContainer}>
@@ -21,3 +21,5 @@ export const ContactList = () => {
     </div>
   );
 };
+
+export default ContactList;

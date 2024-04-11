@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { selectFilter } from '../filter/filterSelector';
+import { selectContacts as selectAllContacts } from '../contact/contactsSelector'; // the original selectContacts to avoid conflict
 
 // Selectors
 export const selectContacts = state => state.contacts.items;
@@ -9,7 +10,7 @@ export const selectStatusFilter = state => state.filters.status;
 
 // Memoized Selector using createSelector
 export const selectFilteredContacts = createSelector(
-  [selectContacts, selectFilter],
+  [selectAllContacts, selectFilter], // Use the renamed selectContacts here
   (contacts, filter) => {
     const statusFilter = filter.status;
     if (statusFilter === 'all') {
