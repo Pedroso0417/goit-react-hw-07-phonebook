@@ -1,46 +1,49 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  addContact,
+  deleteContact,
+  setFilter,
+} from '../redux/contacts/contactsOperation';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList';
-
-const initialContacts = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+import { ContactList } from './ContactList/ContactList ';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(initialContacts);
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
 
-  const addContact = newContact => {
-    setContacts(prevState => [...prevState, newContact]);
+  const addNewContact = newContact => {
+    dispatch(addContact(newContact));
   };
 
-  const deleteContact = id => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== id));
+  const removeContact = id => {
+    dispatch(deleteContact(id));
   };
 
-  const filterContact = () => {
+  const updateFilter = value => {
+    dispatch(setFilter(value));
+  };
+
+  const filterContacts = () => {
     const filterLowerCase = filter.toLowerCase();
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filterLowerCase)
     );
   };
 
-  const filteredContacts = filterContact();
+  const filteredContacts = filterContacts();
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm addContact={addContact} contacts={contacts} />
+      <ContactForm addContact={addNewContact} contacts={contacts} />
 
       <h2>Contacts</h2>
-      <Filter filter={filter} setFilter={setFilter} />
+      <Filter filter={filter} setFilter={updateFilter} />
       <ContactList
         filteredContacts={filteredContacts}
-        deleteContact={deleteContact}
+        deleteContact={removeContact}
       />
     </div>
   );

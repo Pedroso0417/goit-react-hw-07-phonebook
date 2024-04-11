@@ -1,21 +1,17 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { selectFilter } from '../filter/filterSelector';
-import { selectContacts as selectAllContacts } from '../contact/contactsSelector'; // the original selectContacts to avoid conflict
+import { useSelector } from 'react-redux';
+import { selectFilteredContacts } from './contactsSelectors';
 
-// Selectors
-export const selectContacts = state => state.contacts.items;
-export const selectIsLoading = state => state.contacts.isLoading;
-export const selectError = state => state.contacts.error;
-export const selectStatusFilter = state => state.filters.status;
+export const ContactList = () => {
+  const filteredContacts = useSelector(selectFilteredContacts);
 
-// Memoized Selector using createSelector
-export const selectFilteredContacts = createSelector(
-  [selectAllContacts, selectFilter], // Use the renamed selectContacts here
-  (contacts, filter) => {
-    const statusFilter = filter.status;
-    if (statusFilter === 'all') {
-      return contacts;
-    }
-    return contacts.filter(contact => contact.status === statusFilter);
-  }
-);
+  return (
+    <ul>
+      {filteredContacts.map(contact => (
+        <li key={contact.id}>
+          {contact.name} - {contact.number}
+          {/* Delete button and other logic */}
+        </li>
+      ))}
+    </ul>
+  );
+};

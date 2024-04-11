@@ -1,24 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import styles from './ContactList.module.css'; // Import CSS styles
+import { useDispatch } from 'react-redux';
 
-const ContactList = () => {
-  // Select the contacts from the Redux store
-  const contacts = useSelector();
+const ContactList = ({ filteredContacts, deleteContact }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(deleteContact(id));
+  };
 
   return (
-    <div className={styles.contactListContainer}>
-      <h2>Contact List</h2>
-      <ul>
-        {contacts.map(contact => (
-          <li key={contact.id} className={styles.contactItem}>
-            <div>Name: {contact.name}</div>
-            <div>Email: {contact.email}</div>
-            {/* Add other contact details here */}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {filteredContacts.map((contact) => (
+        <li key={contact.id}>
+          {contact.name} - {contact.number}
+          <button onClick={() => handleDelete(contact.id)}>Delete</button>
+        </li>
+      ))}
+    </ul>
   );
 };
 
