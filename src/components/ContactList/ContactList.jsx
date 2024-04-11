@@ -1,16 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-const ContactList = ({ filteredContacts, deleteContact }) => {
+export const ContactList = ({ filteredContacts, deleteContact }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = (id) => {
+  const handleDelete = id => {
     dispatch(deleteContact(id));
   };
 
   return (
     <ul>
-      {filteredContacts.map((contact) => (
+      {filteredContacts.map(contact => (
         <li key={contact.id}>
           {contact.name} - {contact.number}
           <button onClick={() => handleDelete(contact.id)}>Delete</button>
@@ -19,5 +19,3 @@ const ContactList = ({ filteredContacts, deleteContact }) => {
     </ul>
   );
 };
-
-export default ContactList;

@@ -1,16 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  addContact,
-  deleteContact,
-  setFilter,
-} from '../redux/contacts/contactsOperation';
+import { addContact, deleteContact } from '../redux/contacts/contactsOperation';
+import { setFilter } from '../redux/filter/filterSlice'; // import setFilter action
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
-import { ContactList } from './ContactList/ContactList ';
+import { ContactList } from './ContactList/ContactList';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const filter = useSelector(state => state.filter.value); // assuming filter state is stored under 'filter' slice and has a 'value' field
   const dispatch = useDispatch();
 
   const addNewContact = newContact => {
@@ -22,17 +19,16 @@ export const App = () => {
   };
 
   const updateFilter = value => {
-    dispatch(setFilter(value));
+    dispatch(setFilter(value)); // dispatch setFilter action with new value
   };
 
   const filterContacts = () => {
-    const filterLowerCase = filter.toLowerCase();
+    const filterLowerCase =
+      typeof filter === 'string' ? filter.toLowerCase() : '';
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filterLowerCase)
     );
   };
-
-  const filteredContacts = filterContacts();
 
   return (
     <div>
@@ -42,7 +38,7 @@ export const App = () => {
       <h2>Contacts</h2>
       <Filter filter={filter} setFilter={updateFilter} />
       <ContactList
-        filteredContacts={filteredContacts}
+        filteredContacts={filterContacts} // call filterContacts to get filtered contacts array
         deleteContact={removeContact}
       />
     </div>

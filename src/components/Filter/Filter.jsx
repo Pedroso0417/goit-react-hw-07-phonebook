@@ -1,56 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-import {
-  fetchContacts,
-  addContact,
-  deleteContact,
-} from '../../redux/contacts/contactsOperation';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../../redux/filter/filterSlice'; // assuming you have a filterSlice for managing filter state
 
-const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    items: [],
-    isLoading: false,
-    error: null,
-  },
-  extraReducers: builder => {
-    builder
-      .addCase(fetchContacts.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(fetchContacts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
-      .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.items = action.payload;
-      })
-      .addCase(addContact.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(addContact.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.items.push(action.payload);
-      })
-      .addCase(deleteContact.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(deleteContact.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message;
-      })
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.items = state.items.filter(item => item.id !== action.payload);
-      });
-  },
-});
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter.value); // assuming filter state is stored under 'filter' slice and has a 'value' field
 
-export const contactsReducer = contactsSlice.reducer;
+  const handleFilterChange = event => {
+    dispatch(setFilter(event.target.value));
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder="Filter contacts..."
+      />
+    </div>
+  );
+};
