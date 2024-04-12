@@ -2,25 +2,13 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contacts/contactsOperation'; // Import the addContact action
 import css from './ContactForm.module.css';
 
-export const ContactForm = ({ addContact }) => {
+export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-
-  const handleAddContact = newContact => {
-    dispatch(addContact(newContact));
-  };
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    if (name === 'name') {
-      setName(value);
-    } else if (name === 'number') {
-      setNumber(value);
-    }
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -33,12 +21,21 @@ export const ContactForm = ({ addContact }) => {
     // Use nanoid to generate a unique ID
     const id = nanoid();
 
-    // Add the new contact with the generated ID
-    handleAddContact({ id, name, number });
+    // Dispatch the asynchronous addContact action
+    dispatch(addContact({ id, name, number }));
 
     // Reset the form
     setName('');
     setNumber('');
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
   return (
