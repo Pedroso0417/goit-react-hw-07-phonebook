@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
+import css from './ContactList.module.css';
 export const ContactList = ({ filteredContacts, deleteContact }) => {
   const dispatch = useDispatch();
 
@@ -9,16 +9,16 @@ export const ContactList = ({ filteredContacts, deleteContact }) => {
   };
 
   return (
-    <ul>
+    <ul className={css.contactList}>
       {filteredContacts && filteredContacts.length > 0 ? (
         filteredContacts.map(contact => (
-          <li key={contact.id}>
+          <li key={contact.id} className={css.contactItem}>
             {contact.name} - {contact.number}
             <button onClick={() => handleDelete(contact.id)}>Delete</button>
           </li>
         ))
       ) : (
-        <li>Contacts found</li>
+        <li className={css.noContacts}>No contacts found</li>
       )}
     </ul>
   );
