@@ -30,6 +30,8 @@ export const App = () => {
     );
   };
 
+   // Call filterContacts function to get the array of filtered contacts
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -38,7 +40,7 @@ export const App = () => {
       <h2>Contacts</h2>
       <Filter filter={filter} setFilter={updateFilter} />
       <ContactList
-        filteredContacts={filterContacts} // call filterContacts to get filtered contacts array
+        filteredContacts={filterContacts} // Pass filteredContacts as a constant variable
         deleteContact={removeContact}
       />
     </div>

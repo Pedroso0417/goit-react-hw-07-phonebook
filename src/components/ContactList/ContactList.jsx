@@ -10,12 +10,16 @@ export const ContactList = ({ filteredContacts, deleteContact }) => {
 
   return (
     <ul>
-      {filteredContacts.map(contact => (
-        <li key={contact.id}>
-          {contact.name} - {contact.number}
-          <button onClick={() => handleDelete(contact.id)}>Delete</button>
-        </li>
-      ))}
+      {filteredContacts && filteredContacts.length > 0 ? (
+        filteredContacts.map(contact => (
+          <li key={contact.id}>
+            {contact.name} - {contact.number}
+            <button onClick={() => handleDelete(contact.id)}>Delete</button>
+          </li>
+        ))
+      ) : (
+        <li>Contacts found</li>
+      )}
     </ul>
   );
 };
