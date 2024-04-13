@@ -1,30 +1,39 @@
-.formSubmit {
-  display: block;
+.form {
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
   max-width: 300px;
-  border: 1px solid #2a2a2a;
-  gap: 12px;
-  margin: 30px 0;
-  margin-left: 16px;
-  margin-top: 12px;
+  margin-left: 15px;
+}
+
+.formField {
+  margin-bottom: 15px;
 }
 
 .formLabel {
-  font-size: 20px;
-  margin-left: 16px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-.formInput {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  margin-left: 16px;
+input[type='text'],
+input[type='tel'] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
 
-.submit {
-  width: 100px;
-  margin-left: 16px;
-  margin-top: 12px;
-  margin-bottom: 12px;
+.formButton {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.formButton:hover {
+  background-color: #0056b3;
 }

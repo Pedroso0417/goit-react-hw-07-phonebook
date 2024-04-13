@@ -1,25 +1,45 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import css from './ContactList.module.css';
-export const ContactList = ({ filteredContacts, deleteContact }) => {
+import { useSelector } from 'react-redux';
+// prettier-ignore
+import { selectFilteredContacts, selectError, selectIsLoading } from '../../redux/contacts/contactsSelector';
+import { fetchContacts } from '../../redux/contacts/contactsOperation';
+import { ContactListItem } from './ContactListItem/ContactListItem';
+import { Loader } from 'components/Loader/Loader';
+import styles from './ContactList.module.css';
+
+export const ContactList = () => {
+  const filteredContacts = useSelector(selectFilteredContacts);
+  const error = useSelector(selectError);
+  const isLoading = useSelector(selectIsLoading);
+
   const dispatch = useDispatch();
 
-  const handleDelete = id => {
-    dispatch(deleteContact(id));
-  };
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
-    <ul className={css.contactList}>
-      {filteredContacts && filteredContacts.length > 0 ? (
-        filteredContacts.map(contact => (
-          <li key={contact.id} className={css.contactItem}>
-            {contact.name} - {contact.number}
-            <button onClick={() => handleDelete(contact.id)}>Delete</button>
-          </li>
-        ))
-      ) : (
-        <li className={css.noContacts}>No contacts found</li>
+    <ul className={styles.contactList}>
+      {/* if loading and not error, show Loader */}
+      {isLoading && !error && <Loader />}
+
+      {/* if not loading, not error and filtered contacts is empty, show warning */}
+      {!isLoading && !error && filteredContacts.length === 0 && (
+        <p className={styles.Contact}>No Contact found</p>
       )}
+
+      {/* if not loading, not error and have atleast 1 filtered contact, show ContactListItem */}
+      {!isLoading &&
+        !error &&
+        filteredContacts.length > 0 &&
+        filteredContacts.map(filteredContact => (
+          <ContactListItem
+            className={styles.ContactListItem}
+            key={filteredContact.id}
+            filteredContact={filteredContact}
+          />
+        ))}
     </ul>
   );
 };
